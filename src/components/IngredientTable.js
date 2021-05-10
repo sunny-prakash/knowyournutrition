@@ -12,12 +12,12 @@ const IngredientTable = ({ allRecipes }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {allRecipes.map((recipes, i) => {
+                    {allRecipes.map((recipes) => {
                         return (
-                            <tr key={i}>
-                                <td colSpan="3">{recipes.ingerdient}</td>
-                                {/* <td>{recipes.nutritions}</td>
-                                <td>{recipes.nutritions}</td> */}
+                            <tr key={recipes.id}>
+                                <td colSpan="3">{recipes.item}</td>
+                                <td>{recipes.nutritions.calories}</td>
+                                <td>{recipes.nutritions.totalWeight}</td>
                             </tr>
                         );
                     })}

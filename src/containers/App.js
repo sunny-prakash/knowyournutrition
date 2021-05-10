@@ -13,54 +13,70 @@ class App extends Component {
         this.state = {
             input: "",
             recipes: [],
+            showContent: false,
+            recipeDataCollection: [],
             allRecipes: [],
-            showContent: true,
+            nutritionData: [],
+            doFunc: 0,
         };
     }
+
     componentDidUpdate() {
-        console.log("inside componentDidUpdate");
-        console.log(this.state.allRecipes.length);
-        if (this.state.allRecipes.length) {
-            console.log(this.state.allRecipes[0].nutritions);
+        if (this.state.recipes.length && this.state.recipeDataCollection.length) {
+            this.combineData();
         }
     }
+
     onChangeInput = (e) => {
         this.setState({ input: e.target.value });
     };
 
     onClickEvent = async (e) => {
-        await this.setState({ recipes: this.state.input.split(/[\n,]+/), showContent: true });
+        await this.setState({ recipes: this.state.input.split(/[\n,]+/), showContent: true, doFunc: this.state.recipes.length });
         let btnText = e.target.innerText;
         if (btnText === "New recipe") {
-            this.setState({ input: "", showContent: false });
+            this.setState({ input: "", showContent: false, allRecipes: [] });
             return;
         }
-        // console.log("analyze initiate");
-        let allRecipes = await this.state.recipes.map((elem, i) => {
-            let nutri = this.fetchData(elem);
 
-            return {
-                id: i,
-                ingerdient: elem,
-                nutritions: nutri,
-            };
-        });
-        // let data = this.fetchData(this.state.recipes);
-        // console.log(data);
-        Promise.resolve(allRecipes);
-        await this.setState({ allRecipes }, () => {
-            console.log(allRecipes[0].nutritions.calories);
-        });
-    };
-
-    fetchData = async (elem) => {
         const app_id = "9845ad7d";
         const app_key = "a883470ff6bcf615213622083d1dfc2d";
-        const url = `https://api.edamam.com/api/nutrition-data?app_id=${app_id}&app_key=${app_key}&ingr=${elem}`;
 
-        return await fetch(url)
+        this.state.recipes.forEach((elem) => {
+            this.fetchData(elem, app_id, app_key);
+        });
+        let recipesString = this.state.recipes.toString();
+
+        const url = `https://api.edamam.com/api/nutrition-data?app_id=${app_id}&app_key=${app_key}&ingr=${recipesString}`;
+        await fetch(url)
             .then((resp) => resp.json())
-            .then((res) => res);
+            .then((data) => {
+                this.setState({ nutritionData: this.state.nutritionData.concat(data) });
+            });
+    };
+
+    fetchData = async (elem, app_id, app_key) => {
+        const url = `https://api.edamam.com/api/nutrition-data?app_id=${app_id}&app_key=${app_key}&ingr=${elem}`;
+        await fetch(url)
+            .then((resp) => resp.json())
+            .then((data) => {
+                this.setState({ recipeDataCollection: this.state.recipeDataCollection.concat(data) });
+            });
+    };
+
+    combineData = () => {
+        let allRecipes = [];
+        let recipes = this.state.recipes;
+        let recipeDataCollection = this.state.recipeDataCollection;
+
+        for (let i = 0; i < this.state.recipes.length; i++) {
+            allRecipes[i] = {
+                id: i,
+                item: recipes[i],
+                nutritions: recipeDataCollection[i],
+            };
+        }
+        this.setState({ allRecipes: allRecipes, doFunc: 0 });
     };
 
     render() {
@@ -75,9 +91,9 @@ class App extends Component {
                     <div className="d-flex justify-content-around pt5">
                         <div>
                             <InputArea textInput={this.state.input} showContent={this.state.showContent} onChangeInput={this.onChangeInput} onClickEvent={this.onClickEvent} />
-                            {this.state.showContent ? <IngredientTable allRecipes={this.state.allRecipes} /> : ""}
+                            {this.state.showContent && this.state.allRecipes.length === this.state.recipes ? <IngredientTable allRecipes={this.state.allRecipes} /> : ""}
                         </div>
-                        {this.state.showContent ? <NutritionTable /> : ""}
+                        {this.state.showContent && this.state.nutritionData.length ? <NutritionTable nutritionData={this.state.nutritionData} /> : ""}
                     </div>
                 </div>
                 <footer className="tr mt3">
