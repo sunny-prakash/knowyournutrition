@@ -1,0 +1,26 @@
+#textArea {
+    background-color: rgba(102, 255, 161, 0.6);
+    border: none;
+    width: 32vw;
+    border-radius: 10px;
+}
+
+.bg_faded {
+    background-color: rgba(138, 255, 183, 0.8);
+    border-radius: 15px;
+}
+
+.nutrition_box {
+    border: 2px solid black;
+    padding: 1rem;
+}
+
+.h_color {
+    color: #00ff6a;
+    text-shadow: 1px 1px 10px #00a352, 1px 1px 10px #00a352;
+}
+
+.nav_bar {
+    background-color: rgba(209, 209, 209, 0.8);
+    height: 5rem;
+}
