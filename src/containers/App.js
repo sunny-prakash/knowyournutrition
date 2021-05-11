@@ -17,12 +17,12 @@ class App extends Component {
             recipeDataCollection: [],
             allRecipes: [],
             nutritionData: [],
-            doFunc: 0,
+            doFunc: false,
         };
     }
 
-    componentDidUpdate() {
-        if (this.state.recipes.length && this.state.recipeDataCollection.length) {
+    async componentDidUpdate() {
+        if (this.state.doFunc && this.state.recipeDataCollection.length) {
             this.combineData();
         }
     }
@@ -32,35 +32,49 @@ class App extends Component {
     };
 
     onClickEvent = async (e) => {
-        await this.setState({ recipes: this.state.input.split(/[\n,]+/), showContent: true, doFunc: this.state.recipes.length });
+        await this.setState({ allRecipes: [], recipes: [], nutritionData: [], recipeDataCollection: [], doFunc: false });
+        await this.setState({ recipes: this.state.input.split(/[\n,]+/), showContent: true, doFunc: true });
+
+        let recipesNames = this.state.recipes.toString().replaceAll(",", " ");
+
         let btnText = e.target.innerText;
         if (btnText === "New recipe") {
-            this.setState({ input: "", showContent: false, allRecipes: [] });
+            this.setState({ input: "", showContent: false, allRecipes: [], recipes: [], nutritionData: [], recipeDataCollection: [], doFunc: false });
             return;
         }
+        this.fetchNinjaData(recipesNames);
+        this.fetchEdamamData(recipesNames);
+    };
 
+    fetchEdamamData = async (recipesNames) => {
         const app_id = "9845ad7d";
         const app_key = "a883470ff6bcf615213622083d1dfc2d";
-
-        this.state.recipes.forEach((elem) => {
-            this.fetchData(elem, app_id, app_key);
-        });
-        let recipesString = this.state.recipes.toString();
-
-        const url = `https://api.edamam.com/api/nutrition-data?app_id=${app_id}&app_key=${app_key}&ingr=${recipesString}`;
-        await fetch(url)
+        const edamamUrl = `https://api.edamam.com/api/nutrition-data?app_id=${app_id}&app_key=${app_key}&ingr=${recipesNames}`;
+        await fetch(edamamUrl)
             .then((resp) => resp.json())
             .then((data) => {
                 this.setState({ nutritionData: this.state.nutritionData.concat(data) });
+            })
+            .catch((e) => {
+                this.setState({ nutritionData: [], doFunc: false, showContent: false });
             });
     };
 
-    fetchData = async (elem, app_id, app_key) => {
-        const url = `https://api.edamam.com/api/nutrition-data?app_id=${app_id}&app_key=${app_key}&ingr=${elem}`;
-        await fetch(url)
+    fetchNinjaData = async (recipesNames) => {
+        const url = `https://api.calorieninjas.com/v1/nutrition?query=`;
+
+        await fetch(url + recipesNames, {
+            method: "GET",
+            headers: {
+                "X-Api-Key": "sKREouRfX5u7A9RUZ5pFCA==SXe534ZR6mhdEtma",
+            },
+        })
             .then((resp) => resp.json())
             .then((data) => {
-                this.setState({ recipeDataCollection: this.state.recipeDataCollection.concat(data) });
+                this.setState({ recipeDataCollection: data.items });
+            })
+            .catch((e) => {
+                this.setState({ allRecipes: [], doFunc: false, showContent: false });
             });
     };
 
@@ -68,7 +82,6 @@ class App extends Component {
         let allRecipes = [];
         let recipes = this.state.recipes;
         let recipeDataCollection = this.state.recipeDataCollection;
-
         for (let i = 0; i < this.state.recipes.length; i++) {
             allRecipes[i] = {
                 id: i,
@@ -76,7 +89,7 @@ class App extends Component {
                 nutritions: recipeDataCollection[i],
             };
         }
-        this.setState({ allRecipes: allRecipes, doFunc: 0 });
+        this.setState({ allRecipes: allRecipes, doFunc: false });
     };
 
     render() {
@@ -91,7 +104,7 @@ class App extends Component {
                     <div className="d-flex justify-content-around pt5">
                         <div>
                             <InputArea textInput={this.state.input} showContent={this.state.showContent} onChangeInput={this.onChangeInput} onClickEvent={this.onClickEvent} />
-                            {this.state.showContent && this.state.allRecipes.length === this.state.recipes ? <IngredientTable allRecipes={this.state.allRecipes} /> : ""}
+                            {this.state.showContent && this.state.allRecipes.length === this.state.recipes.length ? <IngredientTable allRecipes={this.state.allRecipes} /> : ""}
                         </div>
                         {this.state.showContent && this.state.nutritionData.length ? <NutritionTable nutritionData={this.state.nutritionData} /> : ""}
                     </div>

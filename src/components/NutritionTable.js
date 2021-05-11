@@ -1,16 +1,18 @@
 import React from "react";
 
+// let labelArray = ["ENERC_KCAL", "FAT", "FASAT", "CHOCDF", "PROCNT", "CHOLE", "CA", "NA", "MG", "K", "FE", "ZN", "VITC", "VITB6A", "VITB12", "VITD"];
+
 const NutritionTable = ({ nutritionData }) => {
     return (
         <div className="navy nutrition_box bodoni fw6">
-            <h1 className="mt-0 f1 underline">Nutrition Facts</h1>
-            <h3>Amount Per Serving</h3>
+            {console.log("inside  Edamamamaaaa")}
+            <h1 className="mt-0 f1 underline">{"Nutrition Facts"}</h1>
+            <h3>{"Amount Per Serving"}</h3>
             <h1 className="d-flex justify-content-between underline">
                 <span>Calories</span>
                 <span>{nutritionData[0].calories}</span>
             </h1>
             <table className="table table-info table-striped navy">
-                {console.log(nutritionData)}
                 <thead>
                     <tr>
                         <th>{"Nutrients"}</th>

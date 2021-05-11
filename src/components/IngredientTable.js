@@ -3,6 +3,7 @@ import React from "react";
 const IngredientTable = ({ allRecipes }) => {
     return (
         <div className="mt6 navy">
+            {console.log("inside Ninjaaaa")}
             <table className="table table-info table-striped navy">
                 <thead>
                     <tr>
@@ -17,7 +18,7 @@ const IngredientTable = ({ allRecipes }) => {
                             <tr key={recipes.id}>
                                 <td colSpan="3">{recipes.item}</td>
                                 <td>{recipes.nutritions.calories}</td>
-                                <td>{recipes.nutritions.totalWeight}</td>
+                                <td>{recipes.nutritions.serving_size_g}</td>
                             </tr>
                         );
                     })}
