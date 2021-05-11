@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/knowyournutrition/static/css/main.b744ff67.chunk.css",
+    "main.js": "/knowyournutrition/static/js/main.fc87c65b.chunk.js",
+    "main.js.map": "/knowyournutrition/static/js/main.fc87c65b.chunk.js.map",
+    "runtime-main.js": "/knowyournutrition/static/js/runtime-main.2efc83fd.js",
+    "runtime-main.js.map": "/knowyournutrition/static/js/runtime-main.2efc83fd.js.map",
+    "static/css/2.a7c77a29.chunk.css": "/knowyournutrition/static/css/2.a7c77a29.chunk.css",
+    "static/js/2.741d9737.chunk.js": "/knowyournutrition/static/js/2.741d9737.chunk.js",
+    "static/js/2.741d9737.chunk.js.map": "/knowyournutrition/static/js/2.741d9737.chunk.js.map",
+    "static/js/3.32a7b011.chunk.js": "/knowyournutrition/static/js/3.32a7b011.chunk.js",
+    "static/js/3.32a7b011.chunk.js.map": "/knowyournutrition/static/js/3.32a7b011.chunk.js.map",
+    "index.html": "/knowyournutrition/index.html",
+    "static/css/2.a7c77a29.chunk.css.map": "/knowyournutrition/static/css/2.a7c77a29.chunk.css.map",
+    "static/css/main.b744ff67.chunk.css.map": "/knowyournutrition/static/css/main.b744ff67.chunk.css.map",
+    "static/js/2.741d9737.chunk.js.LICENSE.txt": "/knowyournutrition/static/js/2.741d9737.chunk.js.LICENSE.txt",
+    "static/media/logo.25d0d32f.png": "/knowyournutrition/static/media/logo.25d0d32f.png",
+    "static/media/index.css": "/knowyournutrition/static/media/nutrition1.a005e090.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2efc83fd.js",
+    "static/css/2.a7c77a29.chunk.css",
+    "static/js/2.741d9737.chunk.js",
+    "static/css/main.b744ff67.chunk.css",
+    "static/js/main.fc87c65b.chunk.js"
+  ]
+}
