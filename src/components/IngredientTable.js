@@ -3,7 +3,7 @@ import React from "react";
 const IngredientTable = ({ allRecipes }) => {
     return (
         <div className="mt6 navy">
-            {console.log("inside Ninjaaaa")}
+            {/* {console.log("inside Ninjaaaa")} */}
             <table className="table table-info table-striped navy">
                 <thead>
                     <tr>

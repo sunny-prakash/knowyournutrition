@@ -18,10 +18,11 @@ class App extends Component {
             allRecipes: [],
             nutritionData: [],
             doFunc: false,
+            error: false,
         };
     }
 
-    async componentDidUpdate() {
+    componentDidUpdate() {
         if (this.state.doFunc && this.state.recipeDataCollection.length) {
             this.combineData();
         }
@@ -53,6 +54,7 @@ class App extends Component {
         await fetch(edamamUrl)
             .then((resp) => resp.json())
             .then((data) => {
+                // console.log(data);
                 this.setState({ nutritionData: this.state.nutritionData.concat(data) });
             })
             .catch((e) => {
@@ -74,7 +76,7 @@ class App extends Component {
                 this.setState({ recipeDataCollection: data.items });
             })
             .catch((e) => {
-                this.setState({ allRecipes: [], doFunc: false, showContent: false });
+                this.setState({ allRecipes: [], doFunc: false, showContent: false, error: true });
             });
     };
 
@@ -104,9 +106,12 @@ class App extends Component {
                     <div className="d-flex flex-wrap justify-content-around pt5">
                         <div>
                             <InputArea textInput={this.state.input} showContent={this.state.showContent} onChangeInput={this.onChangeInput} onClickEvent={this.onClickEvent} />
-                            {this.state.showContent && this.state.allRecipes.length === this.state.recipes.length ? <IngredientTable allRecipes={this.state.allRecipes} /> : ""}
+
+                            {this.state.showContent && this.state.allRecipes.length === this.state.recipes.length && this.state.recipes.length ? <IngredientTable allRecipes={this.state.allRecipes} /> : ""}
                         </div>
-                        {this.state.showContent && this.state.nutritionData.length ? <NutritionTable nutritionData={this.state.nutritionData} /> : ""}
+
+                        {this.state.error ? <h1>{"Invalid Input"}</h1> : ""}
+                        {this.state.showContent && this.state.allRecipes.length === this.state.recipes.length && this.state.recipes.length ? <NutritionTable nutritionData={this.state.nutritionData} /> : ""}
                     </div>
                 </div>
                 <footer className="tr mt3">
