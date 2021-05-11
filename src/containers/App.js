@@ -101,7 +101,7 @@ class App extends Component {
                         <h1 className="f1 fw7 h_color georgia">{"Nutrition Analysis"}</h1>
                         <h5 className="tc ph5 bg_faded">{'Enter an ingredient list for what you are cooking, like "1 cup rice, 10 oz chickpeas", etc. Enter each ingredient seperated with "," or on a new line.'}</h5>
                     </div>
-                    <div className="d-flex justify-content-around pt5">
+                    <div className="d-flex flex-wrap justify-content-around pt5">
                         <div>
                             <InputArea textInput={this.state.input} showContent={this.state.showContent} onChangeInput={this.onChangeInput} onClickEvent={this.onClickEvent} />
                             {this.state.showContent && this.state.allRecipes.length === this.state.recipes.length ? <IngredientTable allRecipes={this.state.allRecipes} /> : ""}
