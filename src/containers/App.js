@@ -55,6 +55,9 @@ class App extends Component {
             .then((resp) => resp.json())
             .then((data) => {
                 // console.log(data);
+                if (data.calories === 0) {
+                    this.setState({ error: true });
+                }
                 this.setState({ nutritionData: this.state.nutritionData.concat(data) });
             })
             .catch((e) => {
@@ -109,7 +112,6 @@ class App extends Component {
 
                             {this.state.showContent && this.state.allRecipes.length === this.state.recipes.length && this.state.recipes.length ? <IngredientTable allRecipes={this.state.allRecipes} /> : ""}
                         </div>
-
                         {this.state.error ? <h1>{"Invalid Input"}</h1> : ""}
                         {this.state.showContent && this.state.allRecipes.length === this.state.recipes.length && this.state.recipes.length ? <NutritionTable nutritionData={this.state.nutritionData} /> : ""}
                     </div>
