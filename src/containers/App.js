@@ -35,7 +35,10 @@ class App extends Component {
     onClickEvent = async (e) => {
         await this.setState({ allRecipes: [], recipes: [], nutritionData: [], recipeDataCollection: [], doFunc: false });
         await this.setState({ recipes: this.state.input.split(/[\n,]+/), showContent: true, doFunc: true });
-
+        if (this.state.recipes.length === 0) {
+            this.setState({ error: true });
+            return;
+        }
         let recipesNames = this.state.recipes.toString().replaceAll(",", " ");
 
         let btnText = e.target.innerText;
